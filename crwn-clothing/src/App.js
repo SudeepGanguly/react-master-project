@@ -6,16 +6,24 @@ import HomePage from "./Pages/homepage/homepage.component";
 import ShopPage from "./Pages/shop/shop.component";
 import Header from "./Components/header/header.component";
 import SignInAndSignUp from "./Pages/sign-in-and-sign-up/sign-in-and-sign-up";
-import { auth } from "./firebase/firebase.utils";
+import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
   let unSubsribeFromAuth = null;
 
   useEffect(() => {
-    unSubsribeFromAuth = auth.onAuthStateChanged((user) => {
-      setCurrentUser(user);
-      console.log(user);
+    unSubsribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
+      //IF the userAuth is not not i.e. user is SignedIn
+      if (userAuth) {
+        //Fetch the userRef documentReference
+        const userRef = await createUserProfileDocument(userAuth);
+
+        userRef.onSnapshot((snapshot) => {
+          setCurrentUser({ id: snapshot.id, ...snapshot.data });
+        });
+      }
+      setCurrentUser(userAuth);
     });
 
     return () => {
