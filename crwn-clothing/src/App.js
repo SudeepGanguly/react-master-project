@@ -25,6 +25,8 @@ function App() {
       }
       setCurrentUser(userAuth);
     });
+    console.log("state change");
+    console.log(currentUser);
 
     return () => {
       unSubsribeFromAuth();

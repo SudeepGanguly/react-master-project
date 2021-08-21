@@ -41,7 +41,7 @@ const SignIn = () => {
             type='password'
             value={password}
             onChange={handleChange}
-            label='password'
+            label='Password'
             required />
 
           <div className='buttons'>
