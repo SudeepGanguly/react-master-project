@@ -10,6 +10,16 @@ const COLLECTION_ID_MAP = {
 
 const selectShop = (state) => state.shop;
 
+export const selectisFetching = createSelector(
+  [selectShop],
+  (shop) => shop.isFetcing
+);
+
+export const selectisCollectionLoaded = createSelector(
+  [selectShop],
+  (shop) => !!shop.collections
+);
+
 export const selectShopCollection = createSelector(
   [selectShop],
   (shop) => shop.collections
