@@ -9,13 +9,19 @@ import Header from "./Components/header/header.component";
 import SignInAndSignUp from "./Pages/sign-in-and-sign-up/sign-in-and-sign-up";
 import Checkout from "./Pages/checkout/checkout.component";
 
-import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
+import {
+  auth,
+  createUserProfileDocument,
+  addCollectionsAndDocuments,
+} from "./firebase/firebase.utils";
+
 import { connect } from "react-redux";
 import { setCurrentUser } from "./redux/user/user.actions";
 import { createStructuredSelector } from "reselect";
 import { selectCurrentUser } from "./redux/user/user.selectors";
+import { selectCollectionsOverview } from "./redux/shop/shop.selectors";
 
-function App({ currentUser, setCurrentUser }) {
+function App({ currentUser, setCurrentUser, collectionsArray }) {
   let unSubsribeFromAuth = null;
 
   useEffect(() => {
@@ -38,6 +44,14 @@ function App({ currentUser, setCurrentUser }) {
     };
   }, [unSubsribeFromAuth]);
 
+  // useEffect(() => {
+  //   console.log("In Single use useFfect ");
+  //   addCollectionsAndDocuments(
+  //     "collections",
+  //     collectionsArray.map(({ title, items }) => ({ title, items }))
+  //   );
+  // }, []);
+
   return (
     <div>
       <Header />
@@ -59,6 +73,7 @@ function App({ currentUser, setCurrentUser }) {
 
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
+  collectionsArray: selectCollectionsOverview,
 });
 
 const mapDispatchToProps = (dispatch) => {
